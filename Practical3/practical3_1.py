@@ -92,30 +92,30 @@ def rule_2presstri(press):
     print("Press2:",press2)
     return(press2)
 
-def area(a,b):
-    area=1/2*(b-a)
+def triarea(a,b):
+    area=(a-tricenter(a,b))
     return(area)
 
-def center(a,b):
+def tricenter(a,b):
     center=b-a
     return(center)
 
+def triz(a,b):
+    c=(min(a,b))
+    return c
+
+def tridefuzz(z1,z2,a1,a2,a3,a4):
+    c = (z1*(triarea(a1,a2)*tricenter(a1,a2))+z2*(triarea(a3,a4)*tricenter(a3,a4)))
+    return c
 
 def trifunction():
-    Z1=(min(rule_1temptri(temp),rule_1presstri(press)))
-    Z2=(min(rule_2temptri(temp),rule_2presstri(press)))
+    Z1=triz(rule_1temptri(temp),rule_1presstri(press))
+    Z2=triz(rule_2temptri(temp),rule_2presstri(press))
     print("Z1:", Z1)
     print("Z2:", Z2)
-    #C1 = (Z1*area(Heating_power_rule["aal"],Heating_power_rule["aar"])*center(Heating_power_rule["aal"],Heating_power_rule["aar"]))+(Z2*area(Heating_power_rule["hl"],Heating_power_rule["hc"])*center(Heating_power_rule["hl"],Heating_power_rule["hc"]))/(Z1*area(Heating_power_rule["aal"],Heating_power_rule["aar"]))+(Z2*area(Heating_power_rule["hl"],Heating_power_rule["hc"]))
-    C2 = (Z1*area(Valve_opening_rule["bal"],Valve_opening_rule["bar"])*center(Valve_opening_rule["bal"],Valve_opening_rule["bar"]))+(Z2*area(Valve_opening_rule["lc"],Valve_opening_rule["lr"])*center(Valve_opening_rule["lc"],Valve_opening_rule["lr"]))/(Z1*area(Valve_opening_rule["bal"],Valve_opening_rule["bar"]))+(Z2*area(Valve_opening_rule["lc"],Valve_opening_rule["lr"]))
-    #print(C1)
-    print("this is c2:",C2)
-    print(Valve_opening_rule["bal"])
-    print(Z1)
-    print(area(Valve_opening_rule["bal"],Valve_opening_rule["bar"]))
-    print(center(Valve_opening_rule["bal"],Valve_opening_rule["bar"]))
-    print(Z2)
-    print(area(Valve_opening_rule["lc"],Valve_opening_rule["lr"]))
-    print(center(Valve_opening_rule["lc"],Valve_opening_rule["lr"]))
+    c1=tridefuzz(Z1,Z2,Heating_power_rule["aal"],Heating_power_rule["aar"],Heating_power_rule["hl"],Heating_power_rule["hc"])
+    c2=tridefuzz(Z1,Z2,Valve_opening_rule["bal"],Valve_opening_rule["bar"],Valve_opening_rule["lc"],Valve_opening_rule["lr"])
+    print("center1 is: "+c1)
+    print("center2 is: "+c2)
 
 trifunction()
